@@ -42,21 +42,22 @@ export function updateGame(scene: Scene, input: Input, canvas: HTMLCanvasElement
     }
     
     // Place structures
-    if (input.isMouseDownRight && scene.grid.hoveredTile && !scene.grid.hoveredTile.structure && scene.economy.workers < scene.economy.settlers) {
-        scene.economy.workers += 1;
+    // debugger;
+    if (input.isMouseDownRight && scene.grid.hoveredTile && !scene.grid.hoveredTile.structure && scene.economy.resources['Workers'].current < scene.economy.resources['Settlers'].current) {
+        scene.economy.resources['Workers'].current += 1;
         scene.grid.hoveredTile.structure = new GatherersCamp();
     }
 
     // Process
     if (scene.ticks % 30 === 0) {
         scene.economy.process(scene);
+        // scene.economy.resources['']settlers.current += scene.economy.resources['']settlers.current / 2 |0;
     }
     if (scene.ticks % 60 === 0) {
-        scene.economy.settlers += 1;
     }
 
     // Game over
-    if (scene.economy.settlers < 0) {
+    if (scene.economy.resources['Settlers'].current < 0) {
         loop = false;
     }
 

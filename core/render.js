@@ -153,8 +153,8 @@ function renderHud(ctx, scene) {
     const economy = scene.economy;
     ctx.font = `16px ${FONT}`;
     ctx.fillStyle = "black";
-    ctx.fillText(`Settlers: ${Math.max(0, economy.settlers - economy.workers)} / ${economy.settlers}`, 150, 32);
-    ctx.fillText(`Food: ${economy.food}`, 350, 32);
-    ctx.fillText(`Wood: ${economy.wood}`, 500, 32);
-    ctx.fillText(`Stone: ${economy.stone}`, 650, 32);
+    ctx.fillText(`Settlers: ${Math.max(0, economy.resources['Settlers'].current)} (${economy.resources['Settlers'].current - economy.resources['Workers'].current} idle)`, 150, 32);
+    ctx.fillText(`Food: ${economy.resources['Food'].current} / ${economy.resources['Food'].max}`, 350, 32);
+    ctx.fillText(`Wood: ${economy.resources['Wood'].current} / ${economy.resources['Wood'].max}`, 500, 32);
+    ctx.fillText(`Stone: ${economy.resources['Stone'].current} / ${economy.resources['Stone'].max}`, 650, 32);
 }

@@ -2,6 +2,7 @@ import { degreesToRadians } from "../utils/utils.js";
 import { Vector2 } from "../utils/vector2.js";
 import { FONT } from "./constants.js";
 import { BIOMES } from "./scene/biomes.js";
+import { Economy } from "./scene/economy.js";
 import { Input } from "./scene/input.js";
 import { Scene } from "./scene/scene.js";
 import { Tile } from "./scene/tile.js";
@@ -173,12 +174,12 @@ function renderHud(ctx: CanvasRenderingContext2D, scene: Scene) {
     }
 
     // Economy
-    const economy = scene.economy;
+    const economy: Economy = scene.economy;
 
     ctx.font = `16px ${FONT}`;
     ctx.fillStyle = "black";
-    ctx.fillText(`Settlers: ${Math.max(0, economy.settlers - economy.workers)} / ${economy.settlers}`, 150, 32);
-    ctx.fillText(`Food: ${economy.food}`, 350, 32);
-    ctx.fillText(`Wood: ${economy.wood}`, 500, 32);
-    ctx.fillText(`Stone: ${economy.stone}`, 650, 32);
+    ctx.fillText(`Settlers: ${Math.max(0, economy.resources['Settlers'].current)} (${economy.resources['Settlers'].current - economy.resources['Workers'].current} idle)`, 150, 32);
+    ctx.fillText(`Food: ${economy.resources['Food'].current} / ${economy.resources['Food'].max}`, 350, 32);
+    ctx.fillText(`Wood: ${economy.resources['Wood'].current} / ${economy.resources['Wood'].max}`, 500, 32);
+    ctx.fillText(`Stone: ${economy.resources['Stone'].current} / ${economy.resources['Stone'].max}`, 650, 32);
 }
