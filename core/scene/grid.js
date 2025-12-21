@@ -1,11 +1,12 @@
 import { rngBetweenInclusive } from "../../utils/utils.js";
 import { distanceEllipseVector2 } from "../../utils/vector2.js";
 import { Tile } from "./tile.js";
+import { getRandomDirection4 } from "./direction.js";
 export class Grid {
     scene;
     width;
     height;
-    tiles;
+    tiles = [];
     hoveredTile;
     selectedTile;
     tileSize = 32;
@@ -14,19 +15,7 @@ export class Grid {
         this.scene = scene;
         this.width = width;
         this.height = height;
-        // // Tiles
-        // for (let y = 0; y < this.height; y++) {
-        //     for (let x = 0; x < this.width; x++) {
-        //         let b: keyof typeof BIOMES = "Plains";
-        //         if(y===0)b="Ocean";
-        //         if(y===1)b="Coast";
-        //         if(y===2)b="Plains";
-        //         if(y===3)b="Forest";
-        //         if(y===4)b="Mountains";
-        //         this.tiles.push(new Tile({x: x, y: y}, b));
-        //     }
-        // }
-        this.tiles = this.generateWorld();
+        this.generateWorld();
         console.log(this.tiles);
     }
     getTileAt(origin) {
@@ -46,17 +35,24 @@ export class Grid {
         this.hoveredTile = closestTile;
     }
     generateWorld() {
-        const tiles = [];
         // Step 1 - All Ocean
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                tiles.push(new Tile({ x: x, y: y }, "Ocean"));
+                this.tiles.push(new Tile({ x: x, y: y }, "Ocean"));
             }
         }
-        // Step 2
+        // Step 2 - Land
         const start = { x: rngBetweenInclusive(0, this.width - 1), y: rngBetweenInclusive(0, this.height - 1) };
-        // this.getTileAt(start).biome = "Plains";
-        // location.reload();
-        return tiles;
+        let head = { ...start };
+        this.getTileAt(start).biome = "Plains";
+        for (let i = 0; i < this.width * this.height / 2; i++) {
+            const offset = getRandomDirection4();
+            head.x += offset.x;
+            head.y += offset.y;
+            const tile = this.getTileAt(head);
+            if (tile) {
+                tile.biome = "Plains";
+            }
+        }
     }
 }
