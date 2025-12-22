@@ -9,10 +9,10 @@ export class Grid {
     tiles: Tile[] = [];
     hoveredTile: Tile;
     selectedTile: Tile;
-    tileSize = 32;
+    tileSize = 8;
     tileScale: Vector2 = {x: 2, y: 1};
 
-    constructor(public scene: Scene, public width: number = 8, public height: number = 8) {
+    constructor(public scene: Scene, public width: number = 32, public height: number = 32) {
         this.generateWorld();
 
         console.log(this.tiles);
@@ -46,17 +46,24 @@ export class Grid {
         }
 
         // Step 2 - Land
-        const start: Vector2 = {x: rngBetweenInclusive(0, this.width - 1), y: rngBetweenInclusive(0, this.height - 1)};
-        let head: Vector2 = {...start};
-        this.getTileAt(start).biome = "Plains";
-        for (let i = 0; i < this.width * this.height / 2; i++) {
-            const offset: Vector2 = getRandomDirection4();
-            head.x += offset.x;
-            head.y += offset.y;
-
-            const tile = this.getTileAt(head);
-            if (tile) {
-                tile.biome = "Plains";
+        // const start: Vector2 = {x: rngBetweenInclusive(0, this.width - 1), y: rngBetweenInclusive(0, this.height - 1)};
+        const start: Vector2 = {x: Math.floor(this.width / 2), y: Math.floor(this.height / 2)};
+        for (let j = 0; j < 4; j++) {
+            
+            let head: Vector2 = {...start};
+            this.getTileAt(start).biome = "Plains";
+            for (let i = 0; i < this.width * this.height / 2; i++) {
+                const offset: Vector2 = getRandomDirection4();
+                head.x += offset.x;
+                head.y += offset.y;
+                
+                const tile = this.getTileAt(head);
+                if (tile) {
+                    tile.biome = "Plains";
+                }
+                else {
+                    head = {...start};
+                }
             }
         }
     }

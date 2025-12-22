@@ -7,6 +7,8 @@ export class Input {
     isMouseDown = false;
     isMouseDownLeft = false;
     isMouseDownRight = false;
+    justWheelUp = false;
+    justWheelDown = false;
     keys = new Map<string, boolean>();
     
     constructor(private canvas: HTMLCanvasElement) {
@@ -19,6 +21,7 @@ export class Input {
         this.canvas.addEventListener("mousemove", (event: PointerEvent) => this.#onMouseMove(event));
         this.canvas.addEventListener("mousedown", (event: PointerEvent) => this.#onMouseDown(event));
         this.canvas.addEventListener("mouseup", (event: PointerEvent) => this.#onMouseUp(event));
+        document.addEventListener("wheel", (event: WheelEvent) => this.#onMouseWheel(event));
         document.addEventListener("keydown", (event: KeyboardEvent) => this.#onKeyDown(event));
         document.addEventListener("keyup", (event: KeyboardEvent) => this.#onKeyUp(event));
         this.canvas.addEventListener("contextmenu", (event: PointerEvent) => this.#onContextMenu(event));
@@ -49,6 +52,15 @@ export class Input {
         this.isMouseDown = false;
         this.isMouseDownLeft = false;
         this.isMouseDownRight = false;
+    }
+
+    #onMouseWheel(e: WheelEvent) {
+        if (e.deltaY < 0) {
+            this.justWheelUp = true;
+        }
+        else {
+            this.justWheelDown = true;
+        }
     }
 
     #onKeyDown(e: KeyboardEvent) {

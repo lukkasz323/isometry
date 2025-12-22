@@ -5,6 +5,8 @@ export class Input {
     isMouseDown = false;
     isMouseDownLeft = false;
     isMouseDownRight = false;
+    justWheelUp = false;
+    justWheelDown = false;
     keys = new Map();
     constructor(canvas) {
         this.canvas = canvas;
@@ -15,6 +17,7 @@ export class Input {
         this.canvas.addEventListener("mousemove", (event) => this.#onMouseMove(event));
         this.canvas.addEventListener("mousedown", (event) => this.#onMouseDown(event));
         this.canvas.addEventListener("mouseup", (event) => this.#onMouseUp(event));
+        document.addEventListener("wheel", (event) => this.#onMouseWheel(event));
         document.addEventListener("keydown", (event) => this.#onKeyDown(event));
         document.addEventListener("keyup", (event) => this.#onKeyUp(event));
         this.canvas.addEventListener("contextmenu", (event) => this.#onContextMenu(event));
@@ -40,6 +43,14 @@ export class Input {
         this.isMouseDown = false;
         this.isMouseDownLeft = false;
         this.isMouseDownRight = false;
+    }
+    #onMouseWheel(e) {
+        if (e.deltaY < 0) {
+            this.justWheelUp = true;
+        }
+        else {
+            this.justWheelDown = true;
+        }
     }
     #onKeyDown(e) {
         this.keys.set(e.code, true);

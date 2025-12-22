@@ -23,6 +23,15 @@ export function updateGame(scene, input, canvas, deltaTime) {
     if (input.keys.get("KeyS") || input.mouseOrigin.y > canvas.height - padding) {
         scene.camera.origin.y -= scene.camera.speed;
     }
+    // Zoom camera
+    if (input.justWheelUp) {
+        scene.grid.tileSize *= 2;
+        console.log(scene.grid.tileSize);
+    }
+    if (input.justWheelDown) {
+        scene.grid.tileSize /= 2;
+        console.log(scene.grid.tileSize);
+    }
     // Find hovered tile
     scene.grid.updateHoveredTile(input, scene);
     // Tile select
@@ -51,6 +60,9 @@ export function updateGame(scene, input, canvas, deltaTime) {
     if (scene.economy.resources['Settlers'].current < 0) {
         loop = false;
     }
+    // Reset "just" inputs
+    input.justWheelUp = false;
+    input.justWheelDown = false;
     // Must be last!
     scene.ticks++;
     if (loop) {
