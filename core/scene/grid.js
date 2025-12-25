@@ -1,6 +1,8 @@
+import { rngBetweenInclusive } from "../../utils/utils.js";
 import { distanceEllipseVector2 } from "../../utils/vector2.js";
 import { Tile } from "./tile.js";
 import { getRandomDirection4 } from "./direction.js";
+import { Monolith } from "./structures/monolith.js";
 export class Grid {
     scene;
     width;
@@ -15,6 +17,7 @@ export class Grid {
         this.width = width;
         this.height = height;
         this.generateWorld();
+        this.spawnPlayers();
         console.log(this.tiles);
     }
     getTileAt(origin) {
@@ -59,5 +62,14 @@ export class Grid {
                 }
             }
         }
+    }
+    spawnPlayers() {
+        // Find available spot
+        let spawnTile;
+        while (!spawnTile) {
+            spawnTile = this.tiles.find(tile => tile.biome !== "Ocean" && tile.origin.x === rngBetweenInclusive(0, this.width - 1) && tile.origin.y === rngBetweenInclusive(0, this.height - 1));
+        }
+        // Spawn
+        spawnTile.structure = new Monolith();
     }
 }

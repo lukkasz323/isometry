@@ -1,10 +1,8 @@
-import { Vector2 } from "../../utils/vector2.js";
-import { Entity } from "./entity.js";
+import { Economy } from "./economy.js";
 
 export class Player {
-    entity: Entity;
+    economy = new Economy();
 
-    constructor(origin: Vector2 = {x: 0, y: 0}) {
-        this.entity = new Entity({x: origin.x, y: origin.y}, 16)
+    constructor() {
     }
 }

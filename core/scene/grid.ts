@@ -4,6 +4,7 @@ import { Input } from "./input.js";
 import { Scene } from "./scene.js";
 import { Tile } from "./tile.js";
 import { getRandomDirection4 } from "./direction.js";
+import { Monolith } from "./structures/monolith.js";
 
 export class Grid { 
     tiles: Tile[] = [];
@@ -14,6 +15,7 @@ export class Grid {
 
     constructor(public scene: Scene, public width: number = 32, public height: number = 32) {
         this.generateWorld();
+        this.spawnPlayers();
 
         console.log(this.tiles);
     }
@@ -66,5 +68,16 @@ export class Grid {
                 }
             }
         }
+    }
+
+    spawnPlayers() {
+        // Find available spot
+        let spawnTile: Tile;
+        while (!spawnTile) {
+            spawnTile = this.tiles.find(tile => tile.biome !== "Ocean" && tile.origin.x === rngBetweenInclusive(0, this.width - 1) && tile.origin.y === rngBetweenInclusive(0, this.height - 1));
+        }
+
+        // Spawn
+        spawnTile.structure = new Monolith();
     }
 }

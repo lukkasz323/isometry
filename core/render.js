@@ -76,11 +76,11 @@ function renderGrid(ctx, scene) {
         renderGridTile(ctx, scene, tile, strokeColor, BIOMES[tile.biome].color);
         // Structure
         if (tile.structure) {
-            const fontSize = 32;
+            const fontSize = scene.grid.tileSize * 1.5;
             ctx.font = `${fontSize}px ${FONT}`;
             ctx.fillStyle = "black";
             const origin = tile.getOriginAsIsometricScaledAndOffsetByCamera(scene);
-            ctx.fillText(tile.structure.displayName.charAt(0), origin.x - fontSize / 3, origin.y + fontSize / 4);
+            ctx.fillText(tile.structure.displayName.charAt(0), origin.x - fontSize / 3, origin.y + fontSize / 3);
         }
     }
     // This is placed after the for loop to render last.
@@ -150,7 +150,7 @@ function renderHud(ctx, scene) {
         }
     }
     // Economy
-    const economy = scene.economy;
+    const economy = scene.players[0].economy;
     ctx.font = `16px ${FONT}`;
     ctx.fillStyle = "black";
     ctx.fillText(`Settlers: ${Math.max(0, economy.resources['Settlers'].current)} (${economy.resources['Settlers'].current - economy.resources['Workers'].current} idle)`, 150, 32);
