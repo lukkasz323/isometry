@@ -4,12 +4,13 @@ import { Input } from "./input.js";
 import { Scene } from "./scene.js";
 import { Tile } from "./tile.js";
 import { getRandomDirection4 } from "./direction.js";
-import { Monolith } from "./structures/monolith.js";
+import { Monolith } from "./units/monolith.js";
 
-export class Grid { 
+export class Grid {
     tiles: Tile[] = [];
     hoveredTile: Tile;
     selectedTile: Tile;
+    actionModeTile: Tile;
     tileSize = 8;
     tileScale: Vector2 = {x: 2, y: 1};
 

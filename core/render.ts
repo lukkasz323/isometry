@@ -104,8 +104,14 @@ function renderGrid(ctx: CanvasRenderingContext2D, scene: Scene) {
         renderGridTile(ctx, scene, scene.grid.hoveredTile, strokeColor, null, 2);
     }
     if (scene.grid.selectedTile) {
-        strokeColor = "cyan";
+        strokeColor = "cyan";   
         renderGridTile(ctx, scene, scene.grid.selectedTile, strokeColor, null, 2);
+    }
+    if (scene.grid.actionModeTile && scene.grid.actionModeTile.structure.actionRadius > 0) {
+        strokeColor = "orange";
+        const origin = scene.grid.actionModeTile.getOriginAsIsometricScaledAndOffsetByCamera(scene);
+        const scale = scene.grid.actionModeTile.structure.actionRadius * 2 + 1; 
+        renderShape(ctx, origin, scene.grid.tileSize, 4, strokeColor, null, 2, scene.grid.tileScale.x * scale, scene.grid.tileScale.y * scale, 90);
     }
     
 }

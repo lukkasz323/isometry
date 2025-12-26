@@ -2,7 +2,7 @@ import { rngBetweenInclusive } from "../../utils/utils.js";
 import { distanceEllipseVector2 } from "../../utils/vector2.js";
 import { Tile } from "./tile.js";
 import { getRandomDirection4 } from "./direction.js";
-import { Monolith } from "./structures/monolith.js";
+import { Monolith } from "./units/monolith.js";
 export class Grid {
     scene;
     width;
@@ -10,6 +10,7 @@ export class Grid {
     tiles = [];
     hoveredTile;
     selectedTile;
+    actionModeTile;
     tileSize = 8;
     tileScale = { x: 2, y: 1 };
     constructor(scene, width = 32, height = 32) {

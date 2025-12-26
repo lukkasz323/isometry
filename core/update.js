@@ -1,6 +1,8 @@
-import { GatherersCamp } from "./scene/structures/gatherersCamp.js";
+import { GatherersCamp } from "./scene/units/gatherersCamp.js";
+import { Monolith } from "./scene/units/monolith.js";
 export function updateGame(scene, input, canvas, deltaTime) {
     let loop = true;
+    const grid = scene.grid;
     // Debug
     if (input.keys.get("Backquote")) {
         scene.fpsCounter.update(deltaTime);
@@ -25,28 +27,41 @@ export function updateGame(scene, input, canvas, deltaTime) {
     }
     // Zoom camera
     if (input.justWheelUp) {
-        scene.grid.tileSize *= 2;
-        console.log(scene.grid.tileSize);
+        grid.tileSize *= 2;
+        console.log(grid.tileSize);
     }
     if (input.justWheelDown) {
-        scene.grid.tileSize /= 2;
-        console.log(scene.grid.tileSize);
+        grid.tileSize /= 2;
+        console.log(grid.tileSize);
     }
     // Find hovered tile
-    scene.grid.updateHoveredTile(input, scene);
+    grid.updateHoveredTile(input, scene);
     // Tile select
     if (input.isMouseDownLeft) {
-        if (scene.grid.hoveredTile) {
-            scene.grid.selectedTile = scene.grid.hoveredTile;
+        if (grid.hoveredTile) {
+            grid.selectedTile = grid.hoveredTile;
         }
         else {
-            scene.grid.selectedTile = null;
+            grid.selectedTile = null;
         }
     }
-    // --- Place structures
-    if (input.isMouseDownRight && scene.grid.hoveredTile && !scene.grid.hoveredTile.structure && scene.players[0].economy.resources['Workers'].current < scene.players[0].economy.resources['Settlers'].current) {
-        scene.players[0].economy.resources['Workers'].current += 1;
-        scene.grid.hoveredTile.structure = new GatherersCamp();
+    // Right click
+    if (input.isMouseDownRight) {
+        if (grid.hoveredTile) {
+            if (grid.hoveredTile.structure) {
+                // Act with units
+                if (grid.hoveredTile.structure instanceof Monolith) {
+                    grid.actionModeTile = grid.hoveredTile;
+                }
+            }
+            else {
+                // Place structures
+                if (scene.players[0].economy.resources['Workers'].current < scene.players[0].economy.resources['Settlers'].current) {
+                    scene.players[0].economy.resources['Workers'].current += 1;
+                    grid.hoveredTile.structure = new GatherersCamp();
+                }
+            }
+        }
     }
     // Process
     if (scene.ticks % 30 === 0) {

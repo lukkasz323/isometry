@@ -1,7 +1,7 @@
 import { Vector2 } from "../../utils/vector2";
 import { BIOMES } from "./biomes";
 import { Scene } from "./scene";
-import { Structure } from "./structures/structure.js";
+import { Structure } from "./units/structure.js";
 
 export class Tile {
     structure: Structure;
