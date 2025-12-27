@@ -1,5 +1,5 @@
 import { rngBetweenInclusive } from "../../utils/utils.js";
-import { distanceEllipseVector2 } from "../../utils/vector2.js";
+import { differenceVector2, distanceEllipseVector2 } from "../../utils/vector2.js";
 import { Tile } from "./tile.js";
 import { getRandomDirection4 } from "./direction.js";
 import { Monolith } from "./units/monolith.js";
@@ -23,6 +23,9 @@ export class Grid {
     }
     getTileAt(origin) {
         return this.tiles.find(tile => tile.origin.x === origin.x && tile.origin.y === origin.y);
+    }
+    getDistanceBetweenTiles(a, b) {
+        return differenceVector2(a.origin, b.origin);
     }
     updateHoveredTile(input, scene) {
         let closestTile;

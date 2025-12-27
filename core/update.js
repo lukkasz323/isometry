@@ -49,16 +49,28 @@ export function updateGame(scene, input, canvas, deltaTime) {
     if (input.isMouseDownRight) {
         if (grid.hoveredTile) {
             if (grid.hoveredTile.structure) {
-                // Act with units
+                // Act with structures
                 if (grid.hoveredTile.structure instanceof Monolith) {
                     grid.actionModeTile = grid.hoveredTile;
                 }
             }
             else {
-                // Place structures
-                if (scene.players[0].economy.resources['Workers'].current < scene.players[0].economy.resources['Settlers'].current) {
-                    scene.players[0].economy.resources['Workers'].current += 1;
-                    grid.hoveredTile.structure = new GatherersCamp();
+                // Nothing for now
+            }
+        }
+        if (grid.actionModeTile) {
+            // Try place structure
+            // --- If structure not already placed here
+            if (!grid.hoveredTile.structure) {
+                // --- If within action radius
+                const radius = grid.actionModeTile.structure.actionRadius;
+                const distance = grid.getDistanceBetweenTiles(grid.actionModeTile, grid.hoveredTile);
+                if (distance.x <= radius && distance.y <= radius && distance.x >= -radius && distance.y >= -radius) {
+                    // --- If enough idle workers
+                    if (scene.players[0].economy.resources['Workers'].current < scene.players[0].economy.resources['Settlers'].current) {
+                        scene.players[0].economy.resources['Workers'].current += 1;
+                        grid.hoveredTile.structure = new GatherersCamp();
+                    }
                 }
             }
         }

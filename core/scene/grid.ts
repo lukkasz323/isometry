@@ -1,5 +1,5 @@
 import { rngBetweenInclusive } from "../../utils/utils.js";
-import { distanceEllipseVector2, Vector2 } from "../../utils/vector2.js";
+import { differenceVector2, distanceEllipseVector2, sumVector2, Vector2 } from "../../utils/vector2.js";
 import { Input } from "./input.js";
 import { Scene } from "./scene.js";
 import { Tile } from "./tile.js";
@@ -23,6 +23,10 @@ export class Grid {
 
     getTileAt(origin: Vector2): Tile | undefined {
         return this.tiles.find(tile => tile.origin.x === origin.x && tile.origin.y === origin.y);
+    }
+
+    getDistanceBetweenTiles(a: Tile, b: Tile): Vector2 {
+        return differenceVector2(a.origin, b.origin);
     }
 
     updateHoveredTile(input: Input, scene: Scene) {

@@ -1,3 +1,4 @@
+import { Vector2 } from "../utils/vector2.js";
 import { Grid } from "./scene/grid.js";
 import { Input } from "./scene/input.js";
 import { Scene } from "./scene/scene.js";
@@ -65,13 +66,24 @@ export function updateGame(scene: Scene, input: Input, canvas: HTMLCanvasElement
                 }
             }
             else {
-                // Place structures
-                if (scene.players[0].economy.resources['Workers'].current < scene.players[0].economy.resources['Settlers'].current) {
-                    scene.players[0].economy.resources['Workers'].current += 1;
-                    grid.hoveredTile.structure = new GatherersCamp();
+                // Nothing for now
+            }
+        }
+        if (grid.actionModeTile) {
+            // Try place structure
+            // --- If structure not already placed here
+            if (!grid.hoveredTile.structure) {
+                // --- If within action radius
+                const radius = grid.actionModeTile.structure.actionRadius;
+                const distance: Vector2 = grid.getDistanceBetweenTiles(grid.actionModeTile, grid.hoveredTile);
+                if (distance.x <= radius && distance.y <= radius &&distance.x >= -radius && distance.y >= -radius) {
+                    // --- If enough idle workers
+                    if (scene.players[0].economy.resources['Workers'].current < scene.players[0].economy.resources['Settlers'].current) {
+                        scene.players[0].economy.resources['Workers'].current += 1;
+                        grid.hoveredTile.structure = new GatherersCamp();
+                    }
                 }
             }
-            
         }
     }
 
