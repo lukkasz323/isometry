@@ -61,7 +61,7 @@ export function updateGame(scene, input, canvas, deltaTime) {
         if (grid.actionModeTile) {
             // Try place structure
             // --- If structure not already placed here
-            if (!grid.hoveredTile.structure) {
+            if (grid.hoveredTile && !grid.hoveredTile.structure) {
                 // --- If within action radius
                 const radius = grid.actionModeTile.structure.actionRadius;
                 const distance = grid.getDistanceBetweenTiles(grid.actionModeTile, grid.hoveredTile);
