@@ -10,9 +10,9 @@ export function updateGame(scene, input, canvas, deltaTime) {
     }
     // Move camera
     let padding = 16;
-    if (!window.navigator.userAgentData.mobile) { // Temporary
-        padding = 0;
-    }
+    //if (!window.navigator.userAgentData.mobile) { // Temporary
+    //    padding = 0;
+    //}
     if (input.keys.get("KeyA") || input.mouseOrigin.x < padding) {
         scene.camera.origin.x += scene.camera.speed;
     }
